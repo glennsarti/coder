@@ -13,10 +13,13 @@ on:
 
 jobs:
   publish-to-choco:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest #windows-latest
     env:
       PACKAGE_PATH: $RUNNER_TEMP/chocolatey
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Generate package files
         shell: pwsh
         run: |
@@ -24,12 +27,11 @@ jobs:
           if (Test-Path -Path $PkgPath) { Remove-Item $PkgPath -Force -Confirm:$False | Out-Null }
           Copy-Item -Path 'scripts/chocolatey' -Destination $PkgPath -Recurse -Confirm:$False
 
-
           Write-Host "Hello"
           Dir ENV:
-      - name: Create package
-        shell: pwsh
-        run: |
-          $PkgPath = Join-Path $ENV:RUNNER_TEMP 'chocolatey'
-          Push-Location $PkgPath
-          choco pack
+      # - name: Create package
+      #   shell: pwsh
+      #   run: |
+      #     $PkgPath = Join-Path $ENV:RUNNER_TEMP 'chocolatey'
+      #     Push-Location $PkgPath
+      #     choco pack
