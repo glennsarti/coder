@@ -29,9 +29,10 @@ jobs:
           Push-Location $PkgPath
 
           $Version = $ENV:RELEASE_VERSION.replace('v','')
-          $URL = "https://github.com/coder/coder/releases/download/v$Version/coder_$Version_windows_amd64.zip"
+          $URL = "https://github.com/coder/coder/releases/download/v${Version}/coder_${Version}_windows_amd64.zip"
 
           # Download it
+          Write-Host "Downloading asset from $URL"
           $ZipFile = 'tools/coder_windows_amd64.zip'
           Invoke-WebRequest -URI $URL -UseBasicParsing -OutFile $ZipFile
           $SHA256 = (Get-FileHash -Path $ZipFile -Algorithm SHA256).Hash
