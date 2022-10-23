@@ -20,10 +20,17 @@ jobs:
           fetch-depth: 0
       - name: Generate package files
         shell: pwsh
+        env:
+          RELEASE_VERSION: 'v0.10.2'
         run: |
           $PkgPath = Join-Path $ENV:RUNNER_TEMP 'chocolatey'
           if (Test-Path -Path $PkgPath) { Remove-Item $PkgPath -Force -Confirm:$False | Out-Null }
           Copy-Item -Path 'scripts/chocolatey' -Destination $PkgPath -Recurse -Confirm:$False
+          Push-Location $PkgPath
+
+          # Munge Version
+          $Content = (Get-Content -Path "coder.nuspec" -Raw).Replace('VERSION',$ENV:RELEASE_VERSION)
+          Set-Content -Path "coder.nuspec" -Value $Content -Force -Confirm:$false
 
           Write-Host "Hello"
           Dir ENV:
