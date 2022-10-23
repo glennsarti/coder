@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - 'add-choco-pkg'
+      - 'main'
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version released e.g. v0.10.2
+        #required: true
+        default: 'v0.10.2'
+
+jobs:
+  publish-to-choco:
+    runs-on: windows
+    steps:
+      - name: Generate package
+        shell: pwsh
+        run: |
+          Write-Host "Hello"

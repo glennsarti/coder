@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>coder</id>
+    <version>VERSION</version>
+    <title>Coder</title>
+    <authors>Coder</authors>
+    <owners>Coder</owners>
+    <licenseUrl>https://github.com/coder/coder/blob/main/LICENSE</licenseUrl>
+    <projectUrl>hhttps://github.com/coder/coder</projectUrl>
+    <projectSourceUrl>https://github.com/coder/coder</projectSourceUrl>
+    <docsUrl>https://coder.com</docsUrl>
+    <bugTrackerUrl>https://github.com/coder/coder/issues</bugTrackerUrl>
+    <packageSourceUrl>https://github.com/coder/coder</packageSourceUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description><![CDATA[ Software development on any infrastructure
+
+    Coder offloads development from local workstations to your on-prem and public cloud infrastructure. Boost developer productivity with instant onboarding and powerful server resources. Keep code and data under control within your network.
+
+    ]]></description>
+    <summary>Remote development environments on your infrastructure provisioned with Terraform.</summary>
+    <releaseNotes>See https://github.com/coder/coder/releases</releaseNotes>
+    <tags>coder development kit modules configuration management ruby</tags>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
+<!-- character encoding: "UTF-8" -->
