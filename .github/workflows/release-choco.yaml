@@ -14,8 +14,6 @@ on:
 jobs:
   publish-to-choco:
     runs-on: ubuntu-latest #windows-latest
-    env:
-      PACKAGE_PATH: $RUNNER_TEMP/chocolatey
     steps:
       - uses: actions/checkout@v3
         with:
@@ -29,6 +27,17 @@ jobs:
 
           Write-Host "Hello"
           Dir ENV:
+
+      - name: DEBUG
+        shell: pwsh
+        run: |
+          $PkgPath = Join-Path $ENV:RUNNER_TEMP 'chocolatey'
+
+          Write-Host "---- nuspec"
+          Get-Content -Path "$PkgPath/coder.nuspec" -Raw
+          Write-Host "---- tools"
+          Get-Content -Path "$PkgPath/tools/chocolatey-install.ps1" -Raw
+
       # - name: Create package
       #   shell: pwsh
       #   run: |
