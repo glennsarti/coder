@@ -46,8 +46,8 @@ jobs:
           # Munge Asset information
           $Filename = "tools/chocolatey-install.ps1"
           $Content = (Get-Content -Path $Filename -Raw)
-          $Content = Content.Replace('ASSET_URL',$URL)
-          $Content = Content.Replace('ASSET_CHECKSUM',$SHA256)
+          $Content = $Content.Replace('ASSET_URL',$URL)
+          $Content = $Content.Replace('ASSET_CHECKSUM',$SHA256)
           Set-Content -Path $Filename -Value $Content -Force -Confirm:$false
 
           Write-Host "Hello"
