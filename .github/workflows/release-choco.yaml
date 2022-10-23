@@ -31,7 +31,7 @@ jobs:
           $Version = $ENV:RELEASE_VERSION.replace('v','')
           $URL = "https://github.com/coder/coder/releases/download/v${Version}/coder_${Version}_windows_amd64.zip"
 
-          # Download it
+          # Download the asset
           Write-Host "Downloading asset from $URL"
           $ZipFile = 'tools/coder_windows_amd64.zip'
           Invoke-WebRequest -URI $URL -UseBasicParsing -OutFile $ZipFile
@@ -39,8 +39,16 @@ jobs:
           Write-Host "Hash is $SHA256"
 
           # Munge Version
-          $Content = (Get-Content -Path "coder.nuspec" -Raw).Replace('VERSION',$Version)
-          Set-Content -Path "coder.nuspec" -Value $Content -Force -Confirm:$false
+          $Filename = "coder.nuspec"
+          $Content = (Get-Content -Path $Filename -Raw).Replace('VERSION',$Version)
+          Set-Content -Path $Filename -Value $Content -Force -Confirm:$false
+
+          # Munge Asset information
+          $Filename = "tools/chocolatey-install.ps1"
+          $Content = (Get-Content -Path $Filename -Raw)
+          $Content = Content.Replace('ASSET_URL',$URL)
+          $Content = Content.Replace('ASSET_CHECKSUM',$SHA256)
+          Set-Content -Path $Filename -Value $Content -Force -Confirm:$false
 
           Write-Host "Hello"
           Dir ENV:
