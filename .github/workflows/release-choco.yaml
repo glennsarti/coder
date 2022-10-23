@@ -13,9 +13,12 @@ on:
 
 jobs:
   publish-to-choco:
-    runs-on: windows
+    runs-on: windows-latest
+    env:
+      PACKAGE_PATH: $RUNNER_TEMP/chocolatey
     steps:
       - name: Generate package
         shell: pwsh
         run: |
           Write-Host "Hello"
+          Dir ENV:
