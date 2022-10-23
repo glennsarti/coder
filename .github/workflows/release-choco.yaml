@@ -13,7 +13,7 @@ on:
 
 jobs:
   publish-to-choco:
-    runs-on: ubuntu-latest #windows-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
         with:
@@ -37,6 +37,7 @@ jobs:
           Invoke-WebRequest -URI $URL -UseBasicParsing -OutFile $ZipFile
           $SHA256 = (Get-FileHash -Path $ZipFile -Algorithm SHA256).Hash
           Write-Host "Hash is $SHA256"
+          Remove-Item -Path $ZipFile -Force -Confirm:$False
 
           # Munge Version
           $Filename = "coder.nuspec"
@@ -50,9 +51,6 @@ jobs:
           $Content = $Content.Replace('ASSET_CHECKSUM',$SHA256)
           Set-Content -Path $Filename -Value $Content -Force -Confirm:$false
 
-          Write-Host "Hello"
-          Dir ENV:
-
       - name: DEBUG
         shell: pwsh
         run: |
@@ -63,9 +61,9 @@ jobs:
           Write-Host "---- tools"
           Get-Content -Path "$PkgPath/tools/chocolatey-install.ps1" -Raw
 
-      # - name: Create package
-      #   shell: pwsh
-      #   run: |
-      #     $PkgPath = Join-Path $ENV:RUNNER_TEMP 'chocolatey'
-      #     Push-Location $PkgPath
-      #     choco pack
+      - name: Create package
+        shell: pwsh
+        run: |
+          $PkgPath = Join-Path $ENV:RUNNER_TEMP 'chocolatey'
+          Push-Location $PkgPath
+          choco pack
