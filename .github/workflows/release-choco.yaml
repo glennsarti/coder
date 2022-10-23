@@ -28,8 +28,17 @@ jobs:
           Copy-Item -Path 'scripts/chocolatey' -Destination $PkgPath -Recurse -Confirm:$False
           Push-Location $PkgPath
 
+          $Version = $ENV:RELEASE_VERSION.replace('v','')
+          $URL = "https://github.com/coder/coder/releases/download/v$Version/coder_$Version_windows_amd64.zip"
+
+          # Download it
+          $ZipFile = 'tools/coder_windows_amd64.zip'
+          Invoke-WebRequest -URI $URL -UseBasicParsing -OutFile $ZipFile
+          $SHA256 = (Get-FileHash -Path $ZipFile -Algorithm SHA256).Hash
+          Write-Host "Hash is $SHA256"
+
           # Munge Version
-          $Content = (Get-Content -Path "coder.nuspec" -Raw).Replace('VERSION',$ENV:RELEASE_VERSION)
+          $Content = (Get-Content -Path "coder.nuspec" -Raw).Replace('VERSION',$Version)
           Set-Content -Path "coder.nuspec" -Value $Content -Force -Confirm:$false
 
           Write-Host "Hello"
